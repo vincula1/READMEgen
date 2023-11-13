@@ -1,59 +1,66 @@
-// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-// TODO: Create an array of questions for user input
+// Function to prompt the user with questions
+function promptUser() {
+  return inquirer.prompt(questions);
+}
 
-const questions = [
-    {
-      type: 'input',
-      name: 'projectDescription',
-      message: 'Project Description: Describe your project in a few sentences:',
-    },
-    {
-      type: 'confirm',
-      name: 'includeTableOfContents',
-      message: 'Do you want to include a table of contents in your README?',
-      default: true,
-    },
-    {
-      type: 'input',
-      name: 'installation',
-      message: 'Installation: Provide installation instructions, if any:',
-    },
-    {
-      type: 'input',
-      name: 'usage',
-      message: 'Usage: Explain how to use your project:',
-    },
-    {
-      type: 'list',
-      name: 'license',
-      message: 'License: Choose a license for your project:',
-      choices: ['MIT', 'Apache 2.0', 'GNU GPL v3', 'Other'],
-    },
-    {
-      type: 'input',
-      name: 'contributing',
-      message: 'Contributing: Guidelines for contributors or how others can get involved:',
-    },
-    {
-      type: 'input',
-      name: 'tests',
-      message: 'Tests: Describe any tests or testing frameworks used:',
-    },
-    {
-      type: 'input',
-      name: 'additionalQuestions',
-      message: 'FAQs or Additional Questions: Include any frequently asked questions or additional information: ',
-    },
-  ];
+// Function to generate README content
+function generateReadme(data) {
+  const tableOfContents = data.includeTableOfContents ? '[Table of Contents]' : '';
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+  const readmeContent = `
+# ${data.projectDescription}
 
-// TODO: Create a function to initialize app
-function init() {}
+${tableOfContents}
 
-// Function call to initialize app
+## Installation
+${data.installation}
+
+## Usage
+${data.usage}
+
+## License
+This project is licensed under the ${data.license} License.
+
+## Contributing
+${data.contributing}
+
+## Tests
+${data.tests}
+
+## FAQs or Additional Questions
+${data.additionalQuestions}
+`;
+
+  return readmeContent;
+}
+
+// Function to write README file
+function writeToFile(fileName, data) {
+  const readmeContent = generateReadme(data);
+
+  fs.writeFile(fileName, readmeContent, (err) => {
+    if (err) {
+      console.error('Error writing README file:', err);
+    } else {
+      console.log(`README file '${fileName}' created successfully!`);
+    }
+  });
+}
+
+// Function to initialize the application
+function init() {
+  promptUser()
+    .then((userData) => {
+      const fileName = 'README.md';
+      writeToFile(fileName, userData);
+    })
+    .catch((err) => {
+      console.error('Error:', err);
+    });
+}
+
+// Call the init function to start the application
 init();
