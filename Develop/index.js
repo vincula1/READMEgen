@@ -1,47 +1,61 @@
+// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateMarkdown = require('./utils/generateMarkdown');
 
-// Function to prompt the user with questions
-function promptUser() {
-  return inquirer.prompt(questions);
-}
+// TODO: Create an array of questions for user input
 
-// Function to generate README content
-function generateReadme(data) {
-  const tableOfContents = data.includeTableOfContents ? '[Table of Contents]' : '';
-
-  const readmeContent = `
-# ${data.projectDescription}
-
-${tableOfContents}
-
-## Installation
-${data.installation}
-
-## Usage
-${data.usage}
-
-## License
-This project is licensed under the ${data.license} License.
-
-## Contributing
-${data.contributing}
-
-## Tests
-${data.tests}
-
-## FAQs or Additional Questions
-${data.additionalQuestions}
-`;
-
-  return readmeContent;
-}
+const questions = [
+    {
+      type: 'input',
+      name: 'projectDescription',
+      message: 'Project Description: Describe your project in a few sentences:',
+    },
+    {
+      type: 'confirm',
+      name: 'includeTableOfContents',
+      message: 'Do you want to include a table of contents in your README?',
+      default: true,
+    },
+    {
+      type: 'input',
+      name: 'installation',
+      message: 'Installation: Provide installation instructions, if any:',
+    },
+    {
+      type: 'input',
+      name: 'usage',
+      message: 'Usage: Explain how to use your project:',
+    },
+    {
+      type: 'list',
+      name: 'license',
+      message: 'License: Choose a license for your project:',
+      choices: ['MIT', 'Apache 2.0', 'GNU GPL v3', 'Other'],
+    },
+    {
+      type: 'input',
+      name: 'contributing',
+      message: 'Contributing: Guidelines for contributors or how others can get involved:',
+    },
+    {
+      type: 'input',
+      name: 'tests',
+      message: 'Tests: Describe any tests or testing frameworks used:',
+    },
+    {
+      type: 'input',
+      name: 'additionalQuestions',
+      message: 'FAQs or Additional Questions: Include any frequently asked questions or additional information: ',
+    },
+  ];
 
 // Function to write README file
 function writeToFile(fileName, data) {
-  const readmeContent = generateReadme(data);
+  // Generate the README content based on the 'data' object
+  const readmeContent = generateMarkdown(data);
 
+  // Write the content to the specified file
   fs.writeFile(fileName, readmeContent, (err) => {
     if (err) {
       console.error('Error writing README file:', err);
@@ -51,17 +65,20 @@ function writeToFile(fileName, data) {
   });
 }
 
-// Function to initialize the application
+
+// TODO: Create a function to initialize app
 function init() {
-  promptUser()
-    .then((userData) => {
-      const fileName = 'README.md';
-      writeToFile(fileName, userData);
+  // Prompt the user with the questions
+  inquirer
+    .prompt(questions)
+    .then((answers) => {
+      // Call the writeToFile() function to generate the README file
+      writeToFile('README.md', answers);
     })
-    .catch((err) => {
-      console.error('Error:', err);
+    .catch((error) => {
+      console.error('Error occurred:', error);
     });
 }
 
-// Call the init function to start the application
+// Function call to initialize app
 init();
