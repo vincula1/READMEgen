@@ -1,5 +1,5 @@
 
-# This is a README generator, a tool designed to expedite and systematize the process of creating a README file. Once the program is run, the user will be prompted with questions, the answers to which will be used to create the README file. After all the questions are answered, the README will be generated and formatted correctly.
+# README Generator
 
 ## Table of Contents
 
