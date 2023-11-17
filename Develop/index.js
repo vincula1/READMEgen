@@ -9,7 +9,7 @@ const questions = [
     {
       type: 'input',
       name: 'projectDescription',
-      message: 'Project Description: Describe your project in a few sentences:',
+      message: 'Project Title:',
     },
     {
       type: 'confirm',
