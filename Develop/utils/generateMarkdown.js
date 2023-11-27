@@ -47,7 +47,9 @@ function generateMarkdown(data) {
   const licenseSection = renderLicenseSection(data.license);
 
   return `
-# ${data.projectDescription}
+# ${data.projectTitle}
+
+${data.projectDescription}
 
 ${data.includeTableOfContents ? '## Table of Contents' : ''}
 
